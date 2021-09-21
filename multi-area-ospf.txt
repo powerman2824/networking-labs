@@ -1,0 +1,295 @@
+Current configuration : 3539 bytes
+!
+! Last configuration change at 18:03:52 UTC Tue Sep 21 2021
+!
+version 15.7
+hostname BackBone
+no ip domain lookup
+ip cef
+no ipv6 cef
+interface GigabitEthernet0/0
+ description Link to R-1
+ ip address 192.168.0.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description Link to ABR-1
+ ip address 192.168.1.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ description Link to ABR-2
+ ip address 192.168.2.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+router ospf 1
+ router-id 1.1.1.1
+ network 192.168.0.0 0.0.0.255 area 0
+ network 192.168.1.0 0.0.0.255 area 0
+ network 192.168.2.0 0.0.0.255 area 0
+ network 192.168.100.0 0.0.0.255 area 0
+ network 192.168.200.0 0.0.0.255 area 0
+ network 192.168.0.0 0.0.255.255 area 0
+!
+end
+Current configuration : 3416 bytes
+!
+! Last configuration change at 17:14:36 UTC Tue Sep 21 2021
+!
+version 15.7
+hostname ABR-1
+!
+interface GigabitEthernet0/0
+ description Link to BB
+ ip address 192.168.1.2 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description Link to Area-1
+ ip address 192.168.3.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+router ospf 1
+ router-id 2.2.2.2
+ network 192.168.1.0 0.0.0.255 area 0
+ network 192.168.3.0 0.0.0.255 area 1
+ network 192.168.10.0 0.0.0.255 area 1
+ network 192.168.20.0 0.0.0.255 area 1
+end
+Current configuration : 3416 bytes
+!
+! Last configuration change at 17:27:37 UTC Tue Sep 21 2021
+!
+version 15.7
+!
+hostname ABR-2
+!
+interface GigabitEthernet0/0
+ description Link to BB
+ ip address 192.168.2.2 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description Link to Area-2
+ ip address 192.168.4.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+router ospf 1
+ router-id 3.3.3.3
+ network 192.168.2.0 0.0.0.255 area 0
+ network 192.168.4.0 0.0.0.255 area 2
+ network 192.168.30.0 0.0.0.255 area 2
+ network 192.168.40.0 0.0.0.255 area 2
+end
+Current configuration : 4057 bytes
+!
+! Last configuration change at 18:10:38 UTC Tue Sep 21 2021
+!
+version 15.2
+!
+hostname Area-1
+ip dhcp excluded-address 192.168.10.0 192.168.10.99
+ip dhcp excluded-address 192.168.20.0 192.168.20.99
+!
+ip dhcp pool Vlan10
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1 
+!
+ip dhcp pool Vlan20
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1 
+!
+interface GigabitEthernet0/0
+ description LinK to ABR-1
+ no switchport
+ ip address 192.168.3.2 255.255.255.0
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ switchport access vlan 10
+ negotiation auto
+!         
+interface GigabitEthernet0/2
+ switchport access vlan 20
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ negotiation auto
+!
+interface GigabitEthernet1/0
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ negotiation auto
+!
+interface GigabitEthernet1/3
+ negotiation auto
+!
+interface GigabitEthernet2/0
+ negotiation auto
+!
+interface GigabitEthernet2/0
+ negotiation auto
+interface Vlan10
+ description Link to Valn 10
+ ip address 192.168.10.1 255.255.255.0
+!
+interface Vlan20
+ description Link to Vlan 20
+ ip address 192.168.20.1 255.255.255.0
+!
+router ospf 1
+ router-id 4.4.4.4
+ network 192.168.3.0 0.0.0.255 area 1
+ network 192.168.10.0 0.0.0.255 area 1
+ network 192.168.20.0 0.0.0.255 area 1
+end
+Current configuration : 4057 bytes
+!
+! Last configuration change at 18:21:10 UTC Tue Sep 21 2021
+!
+version 15.2
+!
+hostname Area-2
+ip dhcp excluded-address 192.168.30.0 192.168.30.99
+ip dhcp excluded-address 192.168.40.0 192.168.40.99
+!
+ip dhcp pool Vlan30
+ network 192.168.30.0 255.255.255.0
+ default-router 192.168.30.1 
+!
+ip dhcp pool Vlan40
+ network 192.168.40.0 255.255.255.0
+ default-router 192.168.40.1 
+interface GigabitEthernet0/0
+ description Link to ABR-2
+ no switchport
+ ip address 192.168.4.2 255.255.255.0
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ switchport access vlan 30
+ negotiation auto
+!         
+interface GigabitEthernet0/2
+ switchport access vlan 40
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ negotiation auto
+!
+interface Vlan30
+ description Link to Vlan 30
+ ip address 192.168.30.1 255.255.255.0
+!
+interface Vlan40
+ description Link to Vlan 40
+ ip address 192.168.40.1 255.255.255.0
+!
+router ospf 1
+ router-id 5.5.5.5
+ network 192.168.4.0 0.0.0.255 area 2
+ network 192.168.30.0 0.0.0.255 area 2
+ network 192.168.40.0 0.0.0.255 area 2
+end
+Current configuration : 3413 bytes
+!
+! Last configuration change at 18:24:21 UTC Tue Sep 21 2021
+!
+version 15.7
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R-1
+interface GigabitEthernet0/0
+ description Link to BB
+ ip address 192.168.0.2 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description Fake Link
+ ip address 192.168.100.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ description Fake Link
+ ip address 192.168.200.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 1
+ router-id 6.6.6.6
+ network 192.168.0.0 0.0.0.255 area 0
+ network 192.168.100.0 0.0.0.255 area 0
+ network 192.168.200.0 0.0.0.255 area 0
+end
+
+
+
+
+
